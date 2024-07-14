@@ -7,6 +7,7 @@ defmodule GroceryScheduler.Items.Item do
     field :name, :string
     field :price, :decimal
     field :start_at, :date
+    belongs_to :user, GroceryScheduler.Accounts.User
 
     timestamps(type: :utc_datetime)
   end
@@ -14,7 +15,7 @@ defmodule GroceryScheduler.Items.Item do
   @doc false
   def changeset(item, attrs) do
     item
-    |> cast(attrs, [:name, :price, :start_at, :end_at])
-    |> validate_required([:name, :price, :start_at, :end_at])
+    |> cast(attrs, [:name, :price, :start_at, :end_at, :user_id])
+    |> validate_required([:name, :price, :start_at, :end_at, :user_id])
   end
 end

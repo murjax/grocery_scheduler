@@ -5,7 +5,9 @@ defmodule GrocerySchedulerWeb.ItemLive.Index do
   alias GroceryScheduler.Items.Item
 
   @impl true
-  def mount(_params, _session, socket) do
+  def mount(_params, session, socket) do
+    user = GroceryScheduler.Accounts.get_user_by_session_token(session["user_token"])
+    socket = assign(socket, :user_id, user.id)
     {:ok, stream(socket, :items, Items.list_items())}
   end
 
