@@ -19,9 +19,10 @@ defmodule GrocerySchedulerWeb.ItemLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={@form[:user_id]} value={@user_id} type="hidden" />
+        <input id="item_user_id" name="item[user_id]" value={@user_id} type="hidden" />
         <.input field={@form[:name]} type="text" label="Name" />
         <.input field={@form[:price]} type="number" label="Price" step="any" />
+        <.input field={@form[:frequency_weeks]} type="number" label="Purchase Frequency (Weeks)" step="any" />
         <.input field={@form[:start_at]} type="date" label="Start at" />
         <.input field={@form[:end_at]} type="date" label="End at" />
         <:actions>
