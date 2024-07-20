@@ -2,6 +2,15 @@
   Week View
 </.header>
 
+<button phx-click="last_week">
+  Last Week
+</button>
+<button phx-click="next_week">
+  Next Week
+</button>
+
+<p>Week of <%= @formatted_week_start %> to <%= @formatted_week_end %></p>
+
 <.table
   id="items"
   rows={@streams.items}
