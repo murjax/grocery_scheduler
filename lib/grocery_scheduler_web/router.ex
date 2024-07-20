@@ -76,6 +76,8 @@ defmodule GrocerySchedulerWeb.Router do
       live "/items/:id/show/edit", ItemLive.Show, :edit
 
       live "/schedule", WeekViewLive.Index, :index
+      live "/schedule/items/new", WeekViewLive.Index, :new
+      live "/schedule/items/:id/edit", WeekViewLive.Index, :edit
     end
   end
 

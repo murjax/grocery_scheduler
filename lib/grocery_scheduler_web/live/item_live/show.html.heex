@@ -11,6 +11,7 @@
 <.list>
   <:item title="Name"><%= @item.name %></:item>
   <:item title="Price"><%= @item.price %></:item>
+  <:item title="Purchase Frequency (Weeks)"><%= @item.frequency_weeks %></:item>
   <:item title="Start at"><%= @item.start_at %></:item>
   <:item title="End at"><%= @item.end_at %></:item>
 </.list>
@@ -21,6 +22,7 @@
   <.live_component
     module={GrocerySchedulerWeb.ItemLive.FormComponent}
     id={@item.id}
+    user_id={@user_id}
     title={@page_title}
     action={@live_action}
     item={@item}
