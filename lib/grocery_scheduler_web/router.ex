@@ -17,12 +17,6 @@ defmodule GrocerySchedulerWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", GrocerySchedulerWeb do
-    pipe_through :browser
-
-    get "/", PageController, :home
-  end
-
   # Other scopes may use custom stacks.
   # scope "/api", GrocerySchedulerWeb do
   #   pipe_through :api
@@ -75,6 +69,7 @@ defmodule GrocerySchedulerWeb.Router do
       live "/items/:id", ItemLive.Show, :show
       live "/items/:id/show/edit", ItemLive.Show, :edit
 
+      live "/", WeekViewLive.Index, :index
       live "/schedule", WeekViewLive.Index, :index
       live "/schedule/items/new", WeekViewLive.Index, :new
       live "/schedule/items/:id/edit", WeekViewLive.Index, :edit

@@ -1,5 +1,5 @@
 <.header>
-  Week View
+  Purchase Schedule
   <:actions>
     <.link patch={~p"/schedule/items/new?week_start=#{Date.to_string(@week_start)}&week_end=#{Date.to_string(@week_end)}"}>
       <.button>New Item</.button>
@@ -7,14 +7,20 @@
   </:actions>
 </.header>
 
-<button phx-click="last_week">
-  Last Week
-</button>
-<button phx-click="next_week">
-  Next Week
-</button>
+<div class="flex">
+  <p><%= @formatted_week_start %> to <%= @formatted_week_end %></p>
 
-<p>Week of <%= @formatted_week_start %> to <%= @formatted_week_end %></p>
+  <button phx-click="last_week">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+    </svg>
+  </button>
+  <button phx-click="next_week">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+    </svg>
+  </button>
+</div>
 
 <.table
   id="items"
