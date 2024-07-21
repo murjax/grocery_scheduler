@@ -3,18 +3,40 @@ defmodule GrocerySchedulerWeb.ItemLiveTest do
 
   import Phoenix.LiveViewTest
   import GroceryScheduler.ItemsFixtures
+  import GroceryScheduler.AccountsFixtures
 
-  @create_attrs %{end_at: "2024-07-13", name: "some name", price: "120.5", start_at: "2024-07-13"}
-  @update_attrs %{end_at: "2024-07-14", name: "some updated name", price: "456.7", start_at: "2024-07-14"}
-  @invalid_attrs %{end_at: nil, name: nil, price: nil, start_at: nil}
+  @create_attrs %{
+    end_at: "2024-07-13",
+    name: "some name",
+    start_at: "2024-07-13",
+    price: "120.5",
+    frequency_weeks: 1
+  }
+  @update_attrs %{
+    name: "some updated name",
+    start_at: "2024-07-14",
+    end_at: "2024-07-14",
+    price: "456.7",
+    frequency_weeks: 2
+  }
+  @invalid_attrs %{
+    start_at: nil,
+    name: nil,
+    price: nil,
+    frequency_weeks: nil
+  }
 
-  defp create_item(_) do
+  defp create_item_and_user(%{conn: conn}) do
     item = item_fixture()
-    %{item: item}
+    user = user_fixture()
+    token = GroceryScheduler.Accounts.generate_user_session_token(user)
+    conn = conn |> Phoenix.ConnTest.init_test_session(%{}) |> Plug.Conn.put_session("user_token", token)
+
+    %{item: item, conn: conn}
   end
 
   describe "Index" do
-    setup [:create_item]
+    setup [:create_item_and_user]
 
     test "lists all items", %{conn: conn, item: item} do
       {:ok, _index_live, html} = live(conn, ~p"/items")
@@ -78,7 +100,7 @@ defmodule GrocerySchedulerWeb.ItemLiveTest do
   end
 
   describe "Show" do
-    setup [:create_item]
+    setup [:create_item_and_user]
 
     test "displays item", %{conn: conn, item: item} do
       {:ok, _show_live, html} = live(conn, ~p"/items/#{item}")
