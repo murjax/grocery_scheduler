@@ -41,8 +41,20 @@ defmodule GrocerySchedulerWeb.ItemLiveTest do
     test "lists all items", %{conn: conn, item: item} do
       {:ok, _index_live, html} = live(conn, ~p"/items")
 
+      # Data
       assert html =~ "Listing Items"
+      assert html =~ "Name"
+      assert html =~ "Price"
+      assert html =~ "Purchase Frequency (Weeks)"
+      assert html =~ "Start At"
+      assert html =~ "End At"
+
+      # Labels
       assert html =~ item.name
+      assert html =~ Decimal.to_string(item.price)
+      assert html =~ Integer.to_string(item.frequency_weeks)
+      assert html =~ Date.to_string(item.start_at)
+      assert html =~ Date.to_string(item.end_at)
     end
 
     test "saves new item", %{conn: conn} do
@@ -105,8 +117,20 @@ defmodule GrocerySchedulerWeb.ItemLiveTest do
     test "displays item", %{conn: conn, item: item} do
       {:ok, _show_live, html} = live(conn, ~p"/items/#{item}")
 
+      # Labels
       assert html =~ "Show Item"
+      assert html =~ "Name"
+      assert html =~ "Price"
+      assert html =~ "Purchase Frequency (Weeks)"
+      assert html =~ "Start At"
+      assert html =~ "End At"
+
+      # Data
       assert html =~ item.name
+      assert html =~ Decimal.to_string(item.price)
+      assert html =~ Integer.to_string(item.frequency_weeks)
+      assert html =~ Date.to_string(item.start_at)
+      assert html =~ Date.to_string(item.end_at)
     end
 
     test "updates item within modal", %{conn: conn, item: item} do
