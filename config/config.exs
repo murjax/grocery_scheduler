@@ -31,6 +31,8 @@ config :grocery_scheduler, GrocerySchedulerWeb.Endpoint,
 # at the `config/runtime.exs`.
 config :grocery_scheduler, GroceryScheduler.Mailer, adapter: Swoosh.Adapters.Local
 
+config :ex_money, default_cldr_backend: GroceryScheduler.Cldr
+
 # Configure esbuild (the version is required)
 config :esbuild,
   version: "0.17.11",

@@ -22,13 +22,17 @@
   </button>
 </div>
 
+<p class="mt-3 text-2xl">Total: <%= Money.new(:USD, @item_total) |> Money.to_string!() %></p>
+
 <.table
   id="items"
   rows={@streams.items}
   row_click={fn {_id, item} -> JS.navigate(~p"/items/#{item}") end}
 >
   <:col :let={{_id, item}} label="Name"><%= item.name %></:col>
-  <:col :let={{_id, item}} label="Price"><%= item.price %></:col>
+  <:col :let={{_id, item}} label="Price">
+    <%= Money.new(:USD, item.price) |> Money.to_string!() %>
+  </:col>
   <:col :let={{_id, item}} label="Purchase Frequency (Weeks)"><%= item.frequency_weeks %></:col>
   <:action :let={{_id, item}}>
     <div class="sr-only">

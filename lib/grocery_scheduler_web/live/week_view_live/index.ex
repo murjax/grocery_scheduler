@@ -8,13 +8,17 @@ defmodule GrocerySchedulerWeb.WeekViewLive.Index do
   def mount(_params, session, socket) do
     user = GroceryScheduler.Accounts.get_user_by_session_token(session["user_token"])
     week_info = Date.utc_today() |> week_info_for_date()
+    item_total = Items.items_for_week(week_info.week_start)
+                 |> Enum.reduce(Decimal.new(0), fn item, acc -> Decimal.add(acc, item.price) end)
+
     socket = assign(
       socket,
       user_id: user.id,
       week_start: week_info.week_start,
       week_end: week_info.week_end,
       formatted_week_start: week_info.formatted_week_start,
-      formatted_week_end: week_info.formatted_week_end
+      formatted_week_end: week_info.formatted_week_end,
+      item_total: item_total
     )
     {:ok, stream(socket, :items, Items.items_for_week(week_info.week_start))}
   end
@@ -60,24 +64,30 @@ defmodule GrocerySchedulerWeb.WeekViewLive.Index do
 
   def handle_event("last_week", _, socket) do
     week_info = socket.assigns.week_start |> Date.add(-7) |> week_info_for_date()
+    item_total = Items.items_for_week(week_info.week_start)
+                 |> Enum.reduce(Decimal.new(0), fn item, acc -> Decimal.add(acc, item.price) end)
     socket = assign(
       socket,
       week_start: week_info.week_start,
       week_end: week_info.week_end,
       formatted_week_start: week_info.formatted_week_start,
-      formatted_week_end: week_info.formatted_week_end
+      formatted_week_end: week_info.formatted_week_end,
+      item_total: item_total
     )
     {:noreply, stream(socket, :items, Items.items_for_week(week_info.week_start), reset: true)}
   end
 
   def handle_event("next_week", _, socket) do
     week_info = socket.assigns.week_start |> Date.add(7) |> week_info_for_date()
+    item_total = Items.items_for_week(week_info.week_start)
+                 |> Enum.reduce(Decimal.new(0), fn item, acc -> Decimal.add(acc, item.price) end)
     socket = assign(
       socket,
       week_start: week_info.week_start,
       week_end: week_info.week_end,
       formatted_week_start: week_info.formatted_week_start,
-      formatted_week_end: week_info.formatted_week_end
+      formatted_week_end: week_info.formatted_week_end,
+      item_total: item_total
     )
     {:noreply, stream(socket, :items, Items.items_for_week(week_info.week_start), reset: true)}
   end

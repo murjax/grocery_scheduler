@@ -63,6 +63,9 @@ defmodule GrocerySchedulerWeb.WeekViewLiveTest do
       assert html =~ item2.name
       assert html =~ Decimal.to_string(item2.price)
 
+      item_total = Decimal.add(item1.price, item2.price)
+      assert html =~ Decimal.to_string(item_total)
+
       assert String.contains?(html, item3.name) == false
       assert String.contains?(html, item4.name) == false
       assert String.contains?(html, item5.name) == false
